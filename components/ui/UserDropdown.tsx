@@ -13,17 +13,18 @@ import {
   import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
   import { LogOut } from 'lucide-react'
   import NavItems from './NavItems'
+  import { signOut } from '@/lib/actions/auth.actions'
   
-  const UserDropdown = () => {
+  const UserDropdown = ({user}: {user: User}) => {
 
     const router = useRouter();
     
      const handleSignOut = async () => {
-        
-        router.push("/sign-in");
+        await signOut();
+        router.push("/signin");
     }
 
-    const user = {name : 'Yaten Arora', email: 'john.doe@example.com'}
+   
 
     return (
         <DropdownMenu>

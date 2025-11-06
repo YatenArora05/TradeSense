@@ -1,4 +1,3 @@
-// Simple MongoDB connectivity test for local debugging (CommonJS)
 const mongoose = require('mongoose')
 
 async function main() {
