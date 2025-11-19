@@ -10,17 +10,21 @@ export const signUpWithEmail = async ({ email, password, fullName, country, inve
         const auth = await getAuth();
         const response = await auth.api.signUpEmail({ body: { email, password, name: fullName } })
 
-        if(response) {
+        if(response && !('error' in response)) {
             await inngest.send({
                 name: 'app/user.created',
                 data: { email, name: fullName, country, investmentGoals, riskTolerance, preferredIndustry }
             })
-        }
 
-        return { success: true, data: response }
+            return { success: true, data: response }
+        } else {
+            const errorMessage = response && 'error' in response ? response.error : 'Sign up failed'
+            console.log('Sign up failed', response)
+            return { success: false, error: errorMessage }
+        }
     } catch (e) {
         console.log('Sign up failed', e)
-        return { success: false, error: 'Sign up failed' }
+        return { success: false, error: e instanceof Error ? e.message : 'Sign up failed' }
     }
 }
 
